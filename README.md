@@ -1,4 +1,4 @@
-# oref0
+# oref0 (sam)
 
 Algorithm for OpenAPS implementations. To get started with OpenAPS, see the [OpenAPS documentation](http://openaps.readthedocs.org/en/latest/)
 
