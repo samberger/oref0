@@ -351,7 +351,7 @@ function smb_bolus {
     find enact/ -mmin -5 | grep smb-suggested.json >&4 \
     && if (grep -q '"units":' enact/smb-suggested.json 2>&3); then
         # press ESC three times on the pump to exit Bolus Wizard before SMBing, to help prevent A52 errors
-        echo -n "Sending  ESC to exit any open menus before SMBing: "
+        echo -n "Sending ooooooooooooooooooooo ESC ESC ESC to exit any open menus before SMBing: "
         try_return timerun openaps use pump press_keys esc esc esc | jq .completed | grep true \
         && try_return timerun openaps report invoke enact/bolused.json 2>&3 >&4 | tail -1 \
         && echo -n "enact/bolused.json: " && cat enact/bolused.json | jq -C -c . \
@@ -779,7 +779,7 @@ function refresh_pumphistory_24h {
         rm monitor/edison-battery.json 2>&3
     fi
     if (! ls monitor/edison-battery.json 2>&3 >&4); then
-        echo -n "Edison battery level not found. "
+        echo -n "Edison oooooooooooo battery level not found. "
         autosens_freq=15
     elif (jq --exit-status ".battery >= 98 or (.battery <= 70 and .battery >= 60)" monitor/edison-battery.json >&4); then
         echo -n "Edison battery at $(jq .battery monitor/edison-battery.json)% is charged (>= 98%) or likely charging (60-70%). "
@@ -805,16 +805,16 @@ function setglucosetimestamp {
 }
 
 retry_fail() {
-    "$@" || { echo Retrying $*; "$@"; } || { echo "Couldn't $*"; fail "$@"; }
+    "$@" || { echo Retrying $*; "$@"; } || { echo "(sam 3) Couldn't $*"; fail "$@"; }
 }
 retry_return() {
-    "$@" || { echo Retrying $*; "$@"; } || { echo "Couldn't $* - continuing"; return 1; }
+    "$@" || { echo Retrying $*; "$@"; } || { echo "Couldn't $* - continuing (sam 1)"; return 1; }
 }
 try_fail() {
-    "$@" || { echo "Couldn't $*"; fail "$@"; }
+    "$@" || { echo "(sam 4) Couldn't $*"; fail "$@"; }
 }
 try_return() {
-    "$@" || { echo "Couldn't $*" - continuing; return 1; }
+    "$@" || { echo "Couldn't $* - continuing (sam 2)($@)"; return 1; }
 }
 die() {
     echo "$@"
